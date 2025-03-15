@@ -7,6 +7,28 @@
   font-weight: normal;
 }
 
+.border {
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, #353535 50%, transparent 50%);
+  background-repeat: repeat-x;
+  background-size: 15px 4px, 0 0, 0 0, 0 0;
+  background-position: 0px 0px, 0 0, 0px 0, 0 0;
+}
+
+.border-move {
+  animation: border-dance 3s infinite linear;
+}
+
+@keyframes border-dance {
+  0% {
+    background-position: 300px 0px, 0 0, 0 0, 0 0;
+  }
+  100% {
+    background-position: 0px 0px, 0 0, 0 0, 0 0;
+  }
+}
+
 /* a,
 .green {
   text-decoration: none;

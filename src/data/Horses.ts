@@ -1,8 +1,4 @@
-export type Horse = {
-  name: string;
-  condition: number;
-  color: string;
-};
+import type { Horse } from "@/store/types";
 
 const colors: string[] = [
   "Red", "Blue", "Green", "Yellow", "Purple", "Orange", "Pink", "Brown", "Black", "White",
@@ -19,8 +15,10 @@ const horseNames: string[] = [
 const getRandomCondition = (): number => Math.floor(Math.random() * 100) + 1;
 
 export const horses: Horse[] = horseNames.map((name, index) => ({
-  id: index + 1,
   name,
   condition: getRandomCondition(),
   color: colors[index],
+  number: index + 1,
+  speed: 0,
+  left: 0
 }));

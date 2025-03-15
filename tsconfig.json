@@ -12,6 +12,8 @@
     }
   ],
   "compilerOptions": {
-    "module": "NodeNext"
+    "strict": true,
+    "module": "NodeNext",
+    "skipLibCheck": true
   }
 }
