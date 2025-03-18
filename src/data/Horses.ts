@@ -18,7 +18,7 @@ export const horses: Horse[] = horseNames.map((name, index) => ({
   name,
   condition: getRandomCondition(),
   color: colors[index],
-  number: index + 1,
+  position: 1,
   speed: 0,
   left: 0
 }));

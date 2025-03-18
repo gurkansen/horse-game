@@ -1,19 +1,15 @@
 <script setup lang="ts">
+import CardTitle from "@/components/Core/Texts/CardTitle.vue";
+
 const props = defineProps<{
-  title: {
-    type: string,
-    required: false
-  },
-  menu: {
-    type: string[],
-    required: false
-  }
+  title?: string;
+  menu?: string[];
 }>();
 </script>
 
 <template>
   <div class="main-card">
-    <p v-if="props.title">{{ props.title }}</p>
+    <CardTitle v-if="props.title" :title="props.title" />
     <div v-if="menu" class="card-menu">
       <span v-for="text, i in menu" :key="i">
         {{ text }}
@@ -26,20 +22,12 @@ const props = defineProps<{
 <style>
 .main-card {
   background-color: #fff;
-  margin: 0 16px;
-  margin-bottom: 32px;
+  margin: 16px;
+  /* margin-bottom: 32px; */
   padding: 2px 12px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 200px
-}
-
-.main-card p {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0;
-  padding: 8px 0;
-  color: #333;
+  /* width: 200px */
 }
 
 .card-menu {

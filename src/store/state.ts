@@ -1,15 +1,15 @@
-import type { Horse } from './types'
+import type { Program, Result, Lap } from './types'
 
 export interface State {
-  programs: Horse[][];
-  results: Horse[][];
-  lapCount: number;
+  program: Program[];
+  results: Result[];
+  laps: Lap[];
 }
 
 const state: State = {
-  programs: [],
+  program: [],
   results: [],
-  lapCount: 6
+  laps: []
 }
 
 export default state;

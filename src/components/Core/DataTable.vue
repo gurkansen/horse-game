@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   heading: string[],
-  items: { number: number, name: string }[],
+  items: { position: number, name: string }[],
 }>();
 </script>
 
@@ -14,7 +14,7 @@ const props = defineProps<{
     </div>
     <div class="table-body">
       <div v-for="item, i in props.items" :key="'item-' + i" class="table-item">
-        <span>{{ item.number }}</span>
+        <span>{{ item.position }}</span>
         <span>{{ item.name }}</span>
       </div>
     </div>
@@ -50,13 +50,14 @@ const props = defineProps<{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: right;
 }
 
 .table-item span {
   font-size: 11px;
 }
 
-.table-item:nth-child(1) span {
+/* .table-item:nth-child(1) span {
   font-size: 14px;
 }
 
@@ -66,7 +67,7 @@ const props = defineProps<{
 
 .table-item:nth-child(3) span {
   font-size: 12px;
-}
+} */
 
 .table-item:last-child {
   border-bottom: 0;
