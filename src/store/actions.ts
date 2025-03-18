@@ -20,8 +20,8 @@ const actions = {
       }));
     });
     commit('SET_PROGRAM', program);
-    commit('SET_RESULT', program[0]);
-    commit('SET_RESULT', program[1]);
+    // commit('SET_RESULT', program[0]);
+    // commit('SET_RESULT', program[1]);
   },
   loadLaps({ commit }: { commit: Function }, laps: State['laps']) {
     commit('SET_LAPS', laps);

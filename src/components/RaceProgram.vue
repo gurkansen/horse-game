@@ -12,7 +12,7 @@ const program = computed(() => store.state.program)
 <template>
   <div class="program">
     <MainCard v-for="item, i in program" :key="i" :title="`LAP: ${i+1} - ${item.lap.distance}${item.lap.distanceUnit}`">
-      <DataTable :heading="['Position', 'Name']" :items="item.horses" />
+      <DataTable :heading="['Start Position', 'Name']" :items="item.horses" />
     </MainCard>
   </div>
 </template>

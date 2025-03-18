@@ -8,12 +8,7 @@ import MainCard from "@/components/Core/MainCard.vue";
 
 const store = useStore()
 
-// const results = ref(Array(6))
-// const horseTiming = ref(Array(10).fill(0))
-// const horsePositions = ref(Array(10).fill(0))
-
 const isProgramCreated = ref(false);
-const isRaceStarted = ref(false);
 
 const activeLap = ref(0);
 
@@ -28,14 +23,21 @@ const generateProgram = () => {
 
 const setNextRace = (lapIndex: number) => {
   activeHorses.value = program.value[lapIndex].horses
-  // store.commit('SET_POSITIONS', lapIndex)
-  // store.commit('SET_POSITIONS', 2)
 }
 
 const raceStarted = ref(false);
 const racePaused = ref(false);
 const winners = ref<string[]>([]);
-const raceDistance = 1200;
+const raceDistance = ref(0);
+const horseWidth = 65
+const finishLineBuffer = 40
+
+onMounted(() => {
+  const field = document.querySelector('.field');
+  if (field) {
+    raceDistance.value = field.clientWidth - (horseWidth + finishLineBuffer);
+  }
+});
 const activeHorses = ref<Horse[]>([]);
 let raceInterval: number | null = null;
 
@@ -46,7 +48,9 @@ const startRace = () => {
   winners.value = [];
 
   activeHorses.value.forEach((horse: Horse) => {
-    horse.speed = (horse.condition / 100) * 10 + Math.random() * 2; // think
+    horse.left = 0;
+    horse.speed = (horse.condition / 100) * 5 + Math.random() * 25; // think
+    console.log(horse.speed)
   });
 
   runRace();
@@ -55,16 +59,24 @@ const startRace = () => {
 const runRace = () => {
   raceInterval = setInterval(() => {
     activeHorses.value.forEach((horse: Horse) => {
-      if (horse.left < raceDistance) {
+      if (horse.left < raceDistance.value) {
         horse.left += horse.speed;
-      } else if (!winners.value.includes(horse.name)) {
+      } else if (!winners.value.some(winner => winner.name === horse.name)) {
+        horse.finishPosition = winners.value.length + 1;
         winners.value.push(horse);
+        console.log(horse.name + ' finished' + ' in ' + horse.finishPosition + ' place');
       }
     });
-
     if (winners.value.length === 10) {
       clearInterval(raceInterval!);
       raceStarted.value = false;
+      console.log('race completed')
+      console.log(winners.value)
+      store.commit('SET_RESULT', program.value[activeLap.value]);
+      activeLap.value += 1;
+      if (activeLap.value < program.value.length) {
+        setNextRace(activeLap.value);
+      }
     }
   }, 50);
 }
@@ -96,8 +108,8 @@ const restartRace = () => {
     <MainCard>
       <div class="hipodrom-bar">
         <button v-if="!program.length" class="hipodrom-button generate" @click="generateProgram()">Generate Program</button>
-        <button class="hipodrom-button start" @click="startRace()">
-          Start
+        <button v-if="isProgramCreated" class="hipodrom-button start" @click="startRace()">
+          Start Lap {{ activeLap + 1}}
         </button>
         <button v-if="program.length" :disabled="!raceStarted" class="hipodrom-button start" @click="togglePause()">
           {{ racePaused ? "Resume" : "Pause" }}
@@ -153,7 +165,8 @@ const restartRace = () => {
 
 .line img {
   position: absolute;
-  height: 50px;
+  /* height: 50px; */
+  width: 65px;
   left: 0px;
   top: 0px;
 }
