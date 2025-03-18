@@ -4,24 +4,28 @@ import HorseRace from "@/components/HorseRace.vue";
 import RaceProgram from "@/components/RaceProgram.vue";
 import HorseList from "@/components/HorseList.vue";
 import RaceResults from "@/components/RaceResults.vue";
+import CardTitle from "@/components/Core/Texts/CardTitle.vue";
 </script>
 
 <template>
   <div class="home">
     <NavBar title="Horse Racing" />
     <div class="wrapper">
-      <!-- <HorseList /> -->
+      <HorseList />
       <!-- <div class="scrollable-results">
         
       </div> -->
       <div class="main-layout">
         <div class="scrollable leftbar">
+          <CardTitle title="Race Program" class="sidebar-title" />
           <RaceProgram />
         </div>
         <div class="scrollable center">
+          <CardTitle title="Race Area" class="sidebar-title" />
           <HorseRace />
         </div>
         <div class="scrollable rightbar">
+          <CardTitle title="Results" class="sidebar-title" />
           <RaceResults />
         </div>
       </div>
@@ -46,9 +50,7 @@ import RaceResults from "@/components/RaceResults.vue";
 .main-layout {
   display: flex;
   justify-content: space-between;
-  padding: 0 16px;
   height: 80%;
-  height: 100%;
 }
 
 .scrollable-results {
@@ -71,5 +73,11 @@ import RaceResults from "@/components/RaceResults.vue";
 
 .rightbar, .leftbar {
   max-width: 260px;
+}
+
+.sidebar-title {
+  padding: 0;
+  margin-left: 16px;
+  font-size: 16px;  
 }
 </style>

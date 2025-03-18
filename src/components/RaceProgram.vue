@@ -10,9 +10,14 @@ const program = computed(() => store.state.program)
 </script>
 
 <template>
-  <div class="program">
+  <div v-if="program.length" class="program">
     <MainCard v-for="item, i in program" :key="i" :title="`LAP: ${i+1} - ${item.lap.distance}${item.lap.distanceUnit}`">
       <DataTable :heading="['Start Position', 'Name']" :items="item.horses" />
+    </MainCard>
+  </div>
+  <div v-else>
+    <MainCard title="Program Not Generated">
+      <p>Click <b>Generate Program</b> to Start a Race.</p>
     </MainCard>
   </div>
 </template>

@@ -18,7 +18,11 @@ const mutations = {
     }));
   
     console.log(state.program[lapIndex].horses);
-  }  
+  },
+  SET_RACE_STARTED(state: State, isStarted: boolean) {
+    const lapIndex = state.results.length ? state.results.length - 1 : 0;
+    state.results[lapIndex].isRaceStarted = isStarted;
+  }
 }
 
 export default mutations

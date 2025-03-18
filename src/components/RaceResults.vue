@@ -13,7 +13,7 @@ const results = computed(() => store.state.results)
 
 <template>
   <div class="scrollable-results">
-    <div class="results">
+    <div v-if="results.length" class="results">
       <MainCard v-for="result, i in results" :key="i" :title="`LAP: ${i+1} - ${result.lap.distance}${result.lap.distanceUnit}`">
         <div v-if="result.horses" class="card-content">
             <ListText v-for="horse, i in result.horses.slice().sort((a, b) => a.finishPosition - b.finishPosition)" :key="'horse-' + i">
@@ -23,17 +23,10 @@ const results = computed(() => store.state.results)
         </div>
       </MainCard>
     </div>
+    <div v-else>
+      <MainCard title="No Results Yet">
+        <p>Click <b>Generate Program</b> and <b>Start a Race</b> to see the results.</p>
+      </MainCard>
+    </div>
   </div>
 </template>
-
-<style scoped>
-.scrollable-results {
-  /* overflow-x: auto; */
-  /* display: flex; */
-  /* height: 20vh; */
-}
-.results {
-  /* display: flex;
-  padding: 24px 16px; */
-}
-</style>

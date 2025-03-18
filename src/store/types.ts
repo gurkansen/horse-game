@@ -20,4 +20,5 @@ export type Program = {
 export type Result = {
   lap: Lap;
   horses: Horse[];
+  isRaceStarted: boolean;
 }

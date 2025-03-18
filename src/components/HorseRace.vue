@@ -5,6 +5,7 @@ import { laps } from "@/data/laps";
 import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import MainCard from "@/components/Core/MainCard.vue";
+import Button from "@/components/Core/Buttons/Button.vue";
 
 const store = useStore()
 
@@ -49,8 +50,7 @@ const startRace = () => {
 
   activeHorses.value.forEach((horse: Horse) => {
     horse.left = 0;
-    horse.speed = (horse.condition / 100) * 5 + Math.random() * 25; // think
-    console.log(horse.speed)
+    horse.speed = (horse.condition / 100) * 5 + Math.random() * 10;
   });
 
   runRace();
@@ -64,14 +64,11 @@ const runRace = () => {
       } else if (!winners.value.some(winner => winner.name === horse.name)) {
         horse.finishPosition = winners.value.length + 1;
         winners.value.push(horse);
-        console.log(horse.name + ' finished' + ' in ' + horse.finishPosition + ' place');
       }
     });
     if (winners.value.length === 10) {
       clearInterval(raceInterval!);
       raceStarted.value = false;
-      console.log('race completed')
-      console.log(winners.value)
       store.commit('SET_RESULT', program.value[activeLap.value]);
       activeLap.value += 1;
       if (activeLap.value < program.value.length) {
@@ -91,33 +88,18 @@ const togglePause = () => {
   }
 };
 
-const restartRace = () => {
-  clearInterval(raceInterval!);
-  raceStarted.value = false;
-  racePaused.value = false;
-  winners.value = [];
-  activeHorses.value = program.value[0]
-  console.log(program.value[0])
-  console.log(activeHorses)
-};
-
 </script>
 
 <template>
   <div class="hipodrom">
     <MainCard>
       <div class="hipodrom-bar">
-        <button v-if="!program.length" class="hipodrom-button generate" @click="generateProgram()">Generate Program</button>
-        <button v-if="isProgramCreated" class="hipodrom-button start" @click="startRace()">
-          Start Lap {{ activeLap + 1}}
-        </button>
-        <button v-if="program.length" :disabled="!raceStarted" class="hipodrom-button start" @click="togglePause()">
-          {{ racePaused ? "Resume" : "Pause" }}
-        </button>
-        <button v-if="raceStarted" class="hipodrom-button restart" @click="restartRace()">Restart</button>
+        <Button v-if="!program.length" text="Generate Program" @click="generateProgram()" />
+        <Button v-if="isProgramCreated" :disabled="raceStarted" :text="`▶ Start Lap ${activeLap + 1}`" @click="startRace()" />
+        <Button v-if="isProgramCreated" :disabled="!raceStarted" :text="racePaused ? '▶ Resume' : '▫️ Pause'" @click="togglePause()" />
       </div>
       <div class="field" ref="field">
-        <div class="border" :class="raceStarted && !racePaused ? 'border-move' : ''"></div>
+        <div v-if="isProgramCreated" class="border" :class="raceStarted && !racePaused ? 'border-move' : ''"></div>
         <div v-for="horse, i in activeHorses" :key="i" class="line">
           <span class="horse-name">{{ horse.name }}</span>
           <img tabindex="1" src="http://cliparts.co/cliparts/8Tz/Byj/8TzByjyTp.gif" alt="Running Horse" :style="{ left: horse.left + 'px' }">
@@ -131,9 +113,9 @@ const restartRace = () => {
 <style>
 
 .hipodrom-bar {
-  background-color: #ddd;
-  height: 32px;
-  padding: 16px;
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 .hipodrom-button {
