@@ -101,9 +101,18 @@ const togglePause = () => {
       <div class="field" ref="field">
         <div v-if="isProgramCreated" class="border" :class="raceStarted && !racePaused ? 'border-move' : ''"></div>
         <div v-for="horse, i in activeHorses" :key="i" class="line">
-          <span class="horse-name">{{ horse.name }}</span>
+          <span class="field-text">{{ horse.name }}</span>
           <img tabindex="1" src="http://cliparts.co/cliparts/8Tz/Byj/8TzByjyTp.gif" alt="Running Horse" :style="{ left: horse.left + 'px' }">
           <div class="border" :class="raceStarted && !racePaused ? 'border-move' : ''"></div>
+        </div>
+        <div v-if="isProgramCreated" class="field-bottom">
+          <span class="field-text">
+            {{ 'LAP: ' + (activeLap + 1) + ' - ' + program[activeLap].lap.distance + program[activeLap].lap.distanceUnit }}
+          </span>
+        </div>
+        <div v-if="isProgramCreated" class="start-line"></div>
+        <div v-if="isProgramCreated" class="finish-line">
+          <div class="line-square" v-for="i in 100" :key="'s-' + i" />
         </div>
       </div>
     </MainCard>
@@ -128,6 +137,43 @@ const togglePause = () => {
   cursor: pointer;
 }
 
+.field {
+  position: relative;
+}
+
+.start-line {
+  width: 3px;
+  height: 100%;
+  background-color: brown;
+  position: absolute;
+  left: 10px;
+  transform: translateX(50%);
+  top: 0;
+}
+
+.finish-line {
+  width: 24px;
+  height: calc(100% - 65px);
+  background-color: brown;
+  position: absolute;
+  transform: translateX(50%);
+  right: 40px;
+  top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.line-square {
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+}
+
+.line-square:nth-child(4n - 3), .line-square:nth-child(4n) {
+  background-color: #333;
+}
+
 .line {
   width: 100%;
   height: 50px;
@@ -147,13 +193,13 @@ const togglePause = () => {
 
 .line img {
   position: absolute;
-  /* height: 50px; */
   width: 65px;
   left: 0px;
   top: 0px;
+  z-index: 1;
 }
 
-.line .horse-name {
+.field-text {
   margin-left: 120px;
   font-size: 18px;
   font-weight: 500;
@@ -162,19 +208,17 @@ const togglePause = () => {
   transition: ease-out 0.3s;
 }
 
-.line .horse-number {
-  position: absolute;
-  z-index: 1;
-  color: #fff;
-  background-color: red;
-  font-size: 12px;
-  width: 16px;
-  height: 16px;
+.field-bottom {
+  background-color: #2eac3d;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 100%;
-  left: 55px;
-  top: 5px;
+}
+
+.field-bottom .field-text {
+  color: #fff;
+  font-size: 24px;
+  line-height: 64px;
+  margin: 0;
 }
 </style>
